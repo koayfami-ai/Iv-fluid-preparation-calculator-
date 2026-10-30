@@ -745,21 +745,7 @@ function setBicarb(value){
    ${volume} mL D10NS
 
    </div>
-   const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
+  
    `;
 
    html+=`
@@ -774,21 +760,8 @@ ${tonicity}
    ${volume} mL D10NS
 
    </div>
-   const osmolarity =
- estimateOsmolarity(dex,saline);
+   
 
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    `;
  }
 
@@ -814,21 +787,6 @@ ${tonicity}
 
    </div>
 
-   const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    `;
 
    html+=`
@@ -843,22 +801,6 @@ ${tonicity}
    ${volume} mL D10½NS
 
    </div>
-
-   const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    `;
  }
 
@@ -878,21 +820,8 @@ ${tonicity}
 
    </div>
 
-   const osmolarity =
- estimateOsmolarity(dex,saline);
+   
 
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    `;
  }
 
@@ -913,21 +842,7 @@ ${tonicity}
 
    </div>
 
-   const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
+   
    `;
  }
 
@@ -948,21 +863,7 @@ ${tonicity}
 
    </div>
 
-   const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
+ 
    `;
  }
 
@@ -982,21 +883,8 @@ ${tonicity}
    ${volume} mL D20W
 
    </div>
-   const osmolarity =
- estimateOsmolarity(dex,saline);
+   
 
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    `;
  }
      else if(dex===20 && saline===0.9){
@@ -1013,22 +901,6 @@ ${tonicity}
    ${volume} mL D20NS
 
    </div>
-
-const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
    
    `;
 }
@@ -1049,22 +921,6 @@ else if(dex===20 && Math.abs(saline-0.225)<0.01){
  ${volume} mL D20¼NS
 
  </div>
-
- const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
  `;
 }
 else if(dex===20 && Math.abs(saline-0.45)<0.01){
@@ -1084,21 +940,6 @@ else if(dex===20 && Math.abs(saline-0.45)<0.01){
 
  </div>
 
-const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-<br><br>
-
-Estimated Osmolarity:
-${osmolarity.toFixed(0)} mOsm/L
-
-<br><br>
-
-Tonicity:
-${tonicity}
 
  
  `;
@@ -1112,6 +953,25 @@ ${tonicity}
    
    `;
  }
+const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+
+html += `
+
+<hr>
+
+<b>Estimated Osmolarity</b><br>
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+<b>Tonicity</b><br>
+${tonicity}
+
+`;
 
 
  document.getElementById("dexResult").innerHTML = html;
