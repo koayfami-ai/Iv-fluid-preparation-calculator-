@@ -1,0 +1,853 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IV Fluid Preparation Calculator</title>
+
+<style>
+
+:root{
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --primary:#2563eb;
+    --text:#111827;
+    --border:#d1d5db;
+}
+
+.dark{
+    --bg:#111827;
+    --card:#1f2937;
+    --primary:#3b82f6;
+    --text:#f9fafb;
+    --border:#374151;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:12px;
+    margin-top:20px;
+    border:1px solid var(--border);
+}
+
+.tabs{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.tab{
+    flex:1;
+    min-width:200px;
+    padding:12px;
+    border:none;
+    background:var(--primary);
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:12px;
+    border-radius:6px;
+    border:1px solid var(--border);
+}
+
+button.action{
+    background:var(--primary);
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    cursor:pointer;
+    width:100%;
+}
+
+.result{
+    margin-top:15px;
+    padding:15px;
+    border-radius:8px;
+    background:#dbeafe;
+    color:#000;
+}
+
+.formula{
+    margin-top:15px;
+    font-size:14px;
+    padding:12px;
+    border-radius:8px;
+    background:#f3f4f6;
+    color:#000;
+}
+
+.dark .formula{
+    background:#374151;
+    color:white;
+}
+
+.method{
+    margin-bottom:20px;
+    border-bottom:1px solid #ccc;
+    padding-bottom:15px;
+}
+
+.small{
+    font-size:13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>IV Fluid Preparation Calculator</h1>
+<button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+</div>
+
+<div class="tabs">
+<button class="tab" onclick="showTab('dex')">Dextrose + Saline</button>
+<button class="tab" onclick="showTab('alb')">Albumin</button>
+<button class="tab" onclick="showTab('hco')">Sodium Bicarbonate</button>
+
+    <button class="tab" onclick="showTab('ref')">
+        Formula & Reference
+    </button>
+</div>
+
+
+<!-- DEXTROSE -->
+
+<div id="dex" class="card">
+
+<h2>Dextrose + Saline Solver</h2>
+
+<label>Target Dextrose (%)</label>
+<input type="number" id="targetDex" value="10" step="0.1">
+
+<label>Target Saline (%)</label>
+<input type="number" id="targetSaline" value="0.45" step="0.001">
+
+<label>Final Volume (mL)</label>
+<input type="number" id="dexVolume" value="500">
+
+<button class="action" onclick="solveDextrose()">
+Find Combinations
+</button>
+
+<div id="dexResult" class="result"></div>
+
+<div style="margin-top:10px;">
+  <button onclick="copyResult('dexResult')">📋 Copy</button>
+
+  <button onclick="saveResult('dexResult')">💾 Save</button>
+
+  <button onclick="shareResult('dexResult')">📤 Share</button>
+
+  <button onclick="printResult('dexResult')">🖨 Print</button>
+</div>
+
+<div class="formula">
+<b>Formula</b><br><br>
+Σ(C × V) = Cf × Vf
+<br><br>
+Dextrose balance and saline balance are solved simultaneously.
+</div>
+
+</div>
+
+<!-- ALBUMIN -->
+
+<div id="alb" class="card hidden">
+
+<h2>Albumin Dilution</h2>
+
+<label>Albumin Strength (%)</label>
+<select id="albConc">
+<option value="20">20%</option>
+<option value="25">25%</option>
+</select>
+
+<label>Stock Volume (mL)</label>
+<select id="albStock">
+<option value="50">50 mL</option>
+<option value="100">100 mL</option>
+</select>
+
+<label>Target (%)</label>
+<select id="albTarget">
+<option value="5">5%</option>
+<option value="10">10%</option>
+</select>
+
+<button class="action" onclick="calcAlbumin()">
+Calculate
+</button>
+
+<div id="albResult" class="result"></div>
+
+
+<div style="margin-top:10px;">
+  <button onclick="copyResult('albResult')">📋 Copy</button>
+
+  <button onclick="saveResult('albResult')">💾 Save</button>
+
+  <button onclick="shareResult('albResult')">📤 Share</button>
+
+  <button onclick="printResult('albResult')">🖨 Print</button>
+</div>
+
+<div class="formula">
+<b>Formula</b><br><br>
+
+C₁V₁ = C₂V₂
+<br><br>
+Diluent = V₂ - V₁
+</div>
+
+</div>
+
+<!-- BICARB -->
+
+<div id="hco" class="card hidden">
+
+<h2>Sodium Bicarbonate Calculator</h2>
+
+<label>Stock</label>
+<select id="hcoStock">
+<option value="1">8.4% (1 mmol/mL)</option>
+<option value="0.89">7.5% (0.89 mmol/mL)</option>
+<option value="0.5">4.2% (0.5 mmol/mL)</option>
+<option value="0.15">1.26% (0.15 mmol/mL)</option>
+</select>
+
+<label>Target mmol/L</label>
+<input type="number" id="targetMmol" value="150">
+
+<div style="display:flex;gap:10px;margin-bottom:15px;">
+
+<button
+ type="button"
+ onclick="setBicarb(150)">
+ Isotonic
+<br>
+150 mmol/L
+</button>
+
+<button
+ type="button"
+ onclick="setBicarb(75)">
+ Half Isotonic
+<br>
+75 mmol/L
+</button>
+
+<button
+ type="button"
+ onclick="setBicarb(100)">
+ 100 mmol/L
+</button>
+
+</div>
+
+<label>Final Volume (mL)</label>
+<input type="number" id="hcoVolume" value="1000">
+
+<button class="action" onclick="calcHCO()">
+Calculate
+</button>
+
+<div id="hcoResult" class="result"></div>
+
+
+<div style="margin-top:10px;">
+  <button onclick="copyResult('hcoResult')">📋 Copy</button>
+
+  <button onclick="saveResult('hcoResult')">💾 Save</button>
+
+  <button onclick="shareResult('hcoResult')">📤 Share</button>
+
+  <button onclick="printResult('hcoResult')">🖨 Print</button>
+</div>
+
+<div class="formula">
+<b>Formula</b><br><br>
+
+Required mmol
+=
+Target mmol/L × Volume (L)
+
+<br><br>
+
+Volume Required
+=
+Required mmol ÷ Stock mmol/mL
+</div>
+
+</div>
+
+</div>
+
+<!-- FORMULA & REFERENCE -->
+
+<div id="ref" class="card hidden">
+
+<h2>Formula & Reference</h2>
+
+<h3>Dextrose & Saline</h3>
+
+<div class="formula">
+
+<b>General Mixing Formula</b>
+
+<br><br>
+
+Σ(C × V) = Cf × Vf
+
+<br><br>
+
+Where:
+
+<br>
+
+C = Concentration
+
+<br>
+
+V = Volume
+
+<br>
+
+Cf = Final Concentration
+
+<br>
+
+Vf = Final Volume
+
+</div>
+
+<h3>Albumin Dilution</h3>
+
+<div class="formula">
+
+<b>Dilution Formula</b>
+
+<br><br>
+
+C₁V₁ = C₂V₂
+
+<br><br>
+
+Albumin Required
+
+<br>
+
+V₁ = (C₂ × V₂) ÷ C₁
+
+<br><br>
+
+Diluent
+
+<br>
+
+= V₂ − V₁
+
+</div>
+
+<h3>Sodium Bicarbonate</h3>
+
+<div class="formula">
+
+<b>Required mmol</b>
+
+<br><br>
+
+Target mmol/L × Volume(L)
+
+<br><br>
+
+<b>Bicarbonate Volume</b>
+
+<br><br>
+
+Required mmol ÷ Stock mmol/mL
+
+<br><br>
+
+<b>Diluent</b>
+
+<br><br>
+
+Final Volume − NaHCO₃ Volume
+
+</div>
+
+<h3>Common References</h3>
+
+<div class="formula">
+
+<b>Saline Concentrations</b>
+
+<br><br>
+
+NS = 0.9%
+
+<br>
+
+½NS = 0.45%
+
+<br>
+
+¼NS = 0.225%
+
+<br><br>
+
+<b>Dextrose Concentrations</b>
+
+<br><br>
+
+D5W = 5%
+
+<br>
+
+D10W = 10%
+
+<br>
+
+D50W = 50%
+
+<br><br>
+
+<b>Bicarbonate Strengths</b>
+
+<br><br>
+
+8.4% = 1 mmol/mL
+
+<br>
+
+7.5% = 0.89 mmol/mL
+
+<br>
+
+4.2% = 0.5 mmol/mL
+
+<br>
+
+1.26% = 0.15 mmol/mL
+
+</div>
+
+</div>
+
+
+
+
+
+
+<script>
+
+function toggleDarkMode(){
+ document.body.classList.toggle("dark");
+}
+
+
+function showTab(tab){
+
+ document.getElementById("dex").classList.add("hidden");
+ document.getElementById("alb").classList.add("hidden");
+ document.getElementById("hco").classList.add("hidden");
+ document.getElementById("ref").classList.add("hidden");
+
+ document.getElementById(tab).classList.remove("hidden");
+}
+
+
+     function solveDextrose(){
+
+ const dex =
+ parseFloat(document.getElementById("targetDex").value);
+
+ const saline =
+ parseFloat(document.getElementById("targetSaline").value);
+
+ const volume =
+ parseFloat(document.getElementById("dexVolume").value);
+
+ let html = "";
+
+ // D10NS
+
+ if(dex===10 && saline===0.9){
+
+   const replace=volume/9;
+
+   html+=`
+   <div class="method">
+
+   <b>Preferred Method (Modify Existing Bag)</b><br><br>
+
+   Withdraw:
+   ${replace.toFixed(1)} mL D5NS<br>
+
+   Add:
+   ${replace.toFixed(1)} mL D50W<br><br>
+
+   Final:
+   ${volume} mL D10NS
+
+   </div>
+   `;
+
+   html+=`
+   <div class="method">
+
+   <b>Alternative Method</b><br><br>
+
+   ${(volume*0.8).toFixed(1)} mL NS<br>
+   ${(volume*0.2).toFixed(1)} mL D50W<br><br>
+
+   Final:
+   ${volume} mL D10NS
+
+   </div>
+   `;
+ }
+
+ // D10 HALF NS
+
+ else if(dex===10 && Math.abs(saline-0.45)<0.01){
+
+   const replace=volume/9;
+
+   html+=`
+   <div class="method">
+
+   <b>Preferred Method (Modify Existing Bag)</b><br><br>
+
+   Withdraw:
+   ${replace.toFixed(1)} mL D5½NS<br>
+
+   Add:
+   ${replace.toFixed(1)} mL D50W<br><br>
+
+   Final:
+   ${volume} mL D10½NS
+
+   </div>
+   `;
+
+   html+=`
+   <div class="method">
+
+   <b>Alternative Method</b><br><br>
+
+   ${(volume/2).toFixed(1)} mL D10W<br>
+   ${(volume/2).toFixed(1)} mL ½NS<br><br>
+
+   Final:
+   ${volume} mL D10½NS
+
+   </div>
+   `;
+ }
+
+ // D5 HALF NS
+
+ else if(dex===5 && Math.abs(saline-0.45)<0.01){
+
+   html=`
+   <div class="method">
+
+   <b>Preferred Method</b><br><br>
+
+   Use D5½NS directly<br><br>
+
+   Final:
+   ${volume} mL
+
+   </div>
+   `;
+ }
+
+ // D5 QUARTER NS
+
+ else if(dex===5 && Math.abs(saline-0.225)<0.01){
+
+   html=`
+   <div class="method">
+
+   <b>Preferred Method</b><br><br>
+
+   ${(volume/2).toFixed(1)} mL D5½NS<br>
+   ${(volume/2).toFixed(1)} mL D5W<br><br>
+
+   Final:
+   ${volume} mL D5¼NS
+
+   </div>
+   `;
+ }
+
+ // D10 QUARTER NS
+
+ else if(dex===10 && Math.abs(saline-0.225)<0.01){
+
+   html=`
+   <div class="method">
+
+   <b>Preferred Method</b><br><br>
+
+   ${(volume/2).toFixed(1)} mL D10W<br>
+   ${(volume/2).toFixed(1)} mL ½NS<br><br>
+
+   Final:
+   ${volume} mL D10¼NS
+
+   </div>
+   `;
+ }
+
+ // D20W
+
+ else if(dex===20 && saline===0){
+
+   html=`
+   <div class="method">
+
+   <b>Preferred Method</b><br><br>
+
+   ${(volume*0.75).toFixed(1)} mL D10W<br>
+   ${(volume*0.25).toFixed(1)} mL D50W<br><br>
+
+   Final:
+   ${volume} mL D20W
+
+   </div>
+   `;
+ }
+
+ else{
+
+   html=`
+   No predefined practical preparation exists
+   for this combination.
+   `;
+ }
+
+ document.getElementById("dexResult").innerHTML = html;
+}
+
+
+
+
+
+
+function calcAlbumin(){
+
+ let conc=
+ parseFloat(document.getElementById("albConc").value);
+
+ let stockVol=
+ parseFloat(document.getElementById("albStock").value);
+
+ let target=
+ parseFloat(document.getElementById("albTarget").value);
+
+ let finalVol=
+ (conc*stockVol)/target;
+
+ let diluent=
+ finalVol-stockVol;
+
+ document.getElementById("albResult").innerHTML=
+
+ `
+ <b>Preparation</b><br><br>
+
+ Albumin:
+ ${stockVol} mL (${conc}%)
+ <br><br>
+
+ Diluent:
+ ${diluent.toFixed(1)} mL
+ <br><br>
+
+ Final Volume:
+ ${finalVol.toFixed(1)} mL
+ <br><br>
+
+ Final Concentration:
+ ${target}%
+ `;
+}
+
+function setBicarb(value){
+  document.getElementById("targetMmol").value = value;
+}
+
+function calcHCO(){
+
+ let stock=
+ parseFloat(document.getElementById("hcoStock").value);
+
+ let mmolTarget=
+ parseFloat(document.getElementById("targetMmol").value);
+
+ let volume=
+ parseFloat(document.getElementById("hcoVolume").value);
+
+ let litres=
+ volume/1000;
+
+ let mmol=
+ mmolTarget*litres;
+
+ let hcoVol=
+ mmol/stock;
+
+ let diluent=
+ volume-hcoVol;m
+
+ let ampoules=
+ hcoVol/50;
+
+
+document.getElementById("hcoResult").innerHTML=
+
+ `
+ <b>Preparation</b><br><br>
+
+ Required mmol:
+ ${mmol.toFixed(1)}
+ <br><br>
+
+ NaHCO₃:
+ ${hcoVol.toFixed(1)} mL
+ <br><br>
+
+ Diluent:
+ ${diluent.toFixed(1)} mL
+ <br><br>
+
+ 50 mL ampoules:
+ ${ampoules.toFixed(1)}
+ `;
+}
+
+solveDextrose();
+calcAlbumin();
+calcHCO();
+
+
+function copyResult(id){
+
+  const text =
+    document.getElementById(id).innerText;
+
+  navigator.clipboard.writeText(text);
+
+  alert("Copied to clipboard");
+}
+
+function saveResult(id){
+
+  const text =
+    document.getElementById(id).innerText;
+
+  const blob =
+    new Blob([text], {type:"text/plain"});
+
+  const a =
+    document.createElement("a");
+
+  a.href =
+    URL.createObjectURL(blob);
+
+  a.download =
+    "IV_Preparation.txt";
+
+  a.click();
+}
+
+async function shareResult(id){
+
+  const text =
+    document.getElementById(id).innerText;
+
+  if(navigator.share){
+
+    await navigator.share({
+      title:"IV Fluid Preparation",
+      text:text
+    });
+
+  }else{
+
+    alert("Share not supported on this device");
+  }
+}
+
+function printResult(id){
+
+  const text =
+    document.getElementById(id).innerText;
+
+  const win =
+    window.open("", "_blank");
+
+  win.document.write(`
+    <html>
+    <head>
+      <title>IV Preparation</title>
+    </head>
+    <body>
+      <pre>${text}</pre>
+    </body>
+    </html>
+  `);
+
+  win.document.close();
+
+  win.print();
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>
