@@ -1171,11 +1171,6 @@ if(target==5){
 }
 
 
-    
-function setBicarb(value){
-  document.getElementById("targetMmol").value = value;
-}
-
 function calcHCO(){
 
  let stock=
@@ -1237,10 +1232,6 @@ let osm =
    // close enough for bedside display
  }
 
-solveDextrose();
-calcAlbumin();
-calcHCO();
-
 function calcTonicity(){
 
  let na =
@@ -1270,80 +1261,12 @@ function calcTonicity(){
  mOsm/kg</b>
  `;
 }
-
-function copyResult(id){
-
-  const text =
-    document.getElementById(id).innerText;
-
-  navigator.clipboard.writeText(text);
-
-  alert("Copied to clipboard");
-}
-
-function saveResult(id){
-
-  const text =
-    document.getElementById(id).innerText;
-
-  const blob =
-    new Blob([text], {type:"text/plain"});
-
-  const a =
-    document.createElement("a");
-
-  a.href =
-    URL.createObjectURL(blob);
-
-  a.download =
-    "IV_Preparation.txt";
-
-  a.click();
-}
-
-async function shareResult(id){
-
-  const text =
-    document.getElementById(id).innerText;
-
-  if(navigator.share){
-
-    await navigator.share({
-      title:"IV Fluid Preparation",
-      text:text
-    });
-
-  }else{
-
-    alert("Share not supported on this device");
-  }
-}
-
-function printResult(id){
-
-  const text =
-    document.getElementById(id).innerText;
-
-  const win =
-    window.open("", "_blank");
-
-  win.document.write(`
-    <html>
-    <head>
-      <title>IV Preparation</title>
-    </head>
-    <body>
-      <pre>${text}</pre>
-    </body>
-    </html>
-  `);
-
-  win.document.close();
-
-  win.print();
-}
-
-
+solveDextrose();
+calcAlbumin();
+calcHCO();
+    calcTonicity();
+    
+    
 
 
 
