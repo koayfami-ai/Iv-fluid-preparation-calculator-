@@ -187,6 +187,16 @@ button.action{
   <button type="button" onclick="setFluid(20,0.9)">
     D20NS
   </button>
+
+<button type="button" onclick="setFluid(20,0.45)">
+  D20½NS
+</button>
+
+<button type="button" onclick="setFluid(20,0.225)">
+  D20¼NS
+</button>
+
+    
 </div>
 
 <label>Final Volume (mL)</label>
@@ -414,6 +424,14 @@ Diluent
 
 = V₂ − V₁
 
+<label>Desired Final Volume (mL)</label>
+
+<input
+ type="number"
+ id="albFinalVolume"
+ value="500">
+
+    
 </div>
 
 <h3>Sodium Bicarbonate</h3>
@@ -707,38 +725,72 @@ function setFluid(dex,saline){
  document.getElementById("dexResult").innerHTML = html;
 }
 
+else if(dex===20 && Math.abs(saline-0.225)<0.01){
 
+ html=`
+ <div class="method">
 
+ <b>Preferred Method</b><br><br>
 
+ ${(volume*0.25).toFixed(1)} mL D50W<br>
 
+ ${(volume*0.75).toFixed(1)} mL ¼NS equivalent
+ <br><br>
+
+ Final:
+ ${volume} mL D20¼NS
+
+ </div>
+ `;
+}
+else if(dex===20 && Math.abs(saline-0.45)<0.01){
+
+ html=`
+ <div class="method">
+
+ <b>Preferred Method</b><br><br>
+
+ ${(volume*0.4).toFixed(1)} mL D50W<br>
+
+ ${(volume*0.6).toFixed(1)} mL ½NS
+ <br><br>
+
+ Final:
+ ${volume} mL D20½NS
+
+ </div>
+ `;
+}
 
 function calcAlbumin(){
 
- let conc=
+ let stockConc =
  parseFloat(document.getElementById("albConc").value);
 
- let stockVol=
- parseFloat(document.getElementById("albStock").value);
-
- let target=
+ let targetConc =
  parseFloat(document.getElementById("albTarget").value);
 
- let finalVol=
- (conc*stockVol)/target;
+ let finalVol =
+ parseFloat(document.getElementById("albFinalVolume").value);
 
- let diluent=
- finalVol-stockVol;
+ let albuminNeeded =
 
- document.getElementById("albResult").innerHTML=
+ (targetConc*finalVol)/stockConc;
+
+ let diluent =
+
+ finalVol-albuminNeeded;
+
+ document.getElementById("albResult").innerHTML =
 
  `
  <b>Preparation</b><br><br>
 
- Albumin:
- ${stockVol} mL (${conc}%)
+ Albumin Required:
+ ${albuminNeeded.toFixed(1)} mL
  <br><br>
 
- Diluent:
+ Diluent Required:
  ${diluent.toFixed(1)} mL
  <br><br>
 
@@ -747,9 +799,13 @@ function calcAlbumin(){
  <br><br>
 
  Final Concentration:
- ${target}%
+ ${targetConc}%
  `;
 }
+
+
+
+
 
 function setBicarb(value){
   document.getElementById("targetMmol").value = value;
