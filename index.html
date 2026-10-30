@@ -576,35 +576,7 @@ function setFluid(dex,saline){
   document.getElementById("targetSaline").value = saline;
 }
 
-html += `
 
-<br>
-
-<b>Estimated Osmolarity</b><br>
-
-${osmolarity.toFixed(0)} mOsm/L
-
-<br>
-
-${classifyTonicity(osmolarity)}
-
-`;
-    function classifyTonicity(osm){
-
- if(osm < 250){
-
-   return "Hypotonic";
-
- }
-
- if(osm <= 375){
-
-   return "Near Isotonic";
-
- }
-
- return "Hypertonic";
-}
 
 
      function solveDextrose(){
@@ -835,20 +807,37 @@ const osmolarity =
 
 const tonicity =
  classifyTonicity(osmolarity);
-
+         
 html += `
 
-<hr>
+<br>
 
 <b>Estimated Osmolarity</b><br>
+
 ${osmolarity.toFixed(0)} mOsm/L
 
-<br><br>
+<br>
 
-<b>Tonicity</b><br>
-${tonicity}
+${classifyTonicity(osmolarity)}
 
 `;
+    function classifyTonicity(osm){
+
+ if(osm < 250){
+
+   return "Hypotonic";
+
+ }
+
+ if(osm <= 375){
+
+   return "Near Isotonic";
+
+ }
+
+ return "Hypertonic";
+}
+
 
  document.getElementById("dexResult").innerHTML = html;
 }
