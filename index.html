@@ -829,6 +829,19 @@ function calcAlbumin(){
  let diluent =
 
  finalVol-albuminNeeded;
+    
+let albuminStatus="";
+
+if(target==5){
+
+ albuminStatus =
+ "Isotonic colloid";
+
+}else if(target==10){
+
+ albuminStatus =
+ "Hyperoncotic solution";
+}
 
  document.getElementById("albResult").innerHTML =
 
@@ -853,9 +866,7 @@ function calcAlbumin(){
 }
 
 
-
-
-
+    
 function setBicarb(value){
   document.getElementById("targetMmol").value = value;
 }
@@ -886,6 +897,11 @@ function calcHCO(){
  let ampoules=
  hcoVol/50;
 
+let osmolarity =
+ mmolTarget * 2;
+
+let tonicity =
+ classifyTonicity(osmolarity);
 
 document.getElementById("hcoResult").innerHTML=
 
