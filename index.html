@@ -744,18 +744,6 @@ ${classifyTonicity(osmolarity)}
    </div>
    `;
  }
-
- else{
-
-   html=`
-   No predefined practical preparation exists
-   for this combination.
-   `;
- }
-
- document.getElementById("dexResult").innerHTML = html;
-}
-
 else if(dex===20 && Math.abs(saline-0.225)<0.01){
 
  html=`
@@ -792,6 +780,36 @@ else if(dex===20 && Math.abs(saline-0.45)<0.01){
  </div>
  `;
 }
+ else{
+
+   html=`
+   No predefined practical preparation exists
+   for this combination.
+   `;
+ }
+const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+
+html += `
+
+<hr>
+
+<b>Estimated Osmolarity</b><br>
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+<b>Tonicity</b><br>
+${tonicity}
+
+`;
+
+ document.getElementById("dexResult").innerHTML = html;
+}
+
 function estimateOsmolarity(dex,saline){
 
  let dexOsm = dex * 50.5;
