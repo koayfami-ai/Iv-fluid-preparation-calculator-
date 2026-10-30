@@ -207,6 +207,7 @@ button.action{
 Find Combinations
 </button>
 
+
 <div id="dexResult" class="result"></div>
 
 <div style="margin-top:10px;">
@@ -547,6 +548,36 @@ function setFluid(dex,saline){
   document.getElementById("targetDex").value = dex;
 
   document.getElementById("targetSaline").value = saline;
+}
+
+html += `
+
+<br>
+
+<b>Estimated Osmolarity</b><br>
+
+${osmolarity.toFixed(0)} mOsm/L
+
+<br>
+
+${classifyTonicity(osmolarity)}
+
+`;
+    function classifyTonicity(osm){
+
+ if(osm < 250){
+
+   return "Hypotonic";
+
+ }
+
+ if(osm <= 375){
+
+   return "Near Isotonic";
+
+ }
+
+ return "Hypertonic";
 }
 
 
