@@ -140,6 +140,12 @@ button.action{
 <button class="tab" onclick="showTab('dex')">Dextrose + Saline</button>
 <button class="tab" onclick="showTab('alb')">Albumin</button>
 <button class="tab" onclick="showTab('hco')">Sodium Bicarbonate</button>
+<button class="tab"
+onclick="showTab('tonicity')">
+
+Tonicity
+
+</button>
 
     <button class="tab" onclick="showTab('ref')">
         Formula & Reference
@@ -526,6 +532,34 @@ D50W = 50%
 1.26% = 0.15 mmol/mL
 
 </div>
+
+<div id="tonicity" class="card hidden">
+
+<h2>Tonicity Calculator</h2>
+
+<label>Sodium (mmol/L)</label>
+<input type="number" id="na" value="140">
+
+<label>Glucose (mg/dL)</label>
+<input type="number" id="glu" value="100">
+
+<label>BUN (mg/dL)</label>
+<input type="number" id="bun" value="10">
+
+<button class="action"
+onclick="calcTonicity()">
+
+Calculate
+
+</button>
+
+<div id="tonicityResult"
+class="result"></div>
+
+</div>
+
+
+    
 
 </div>
 
