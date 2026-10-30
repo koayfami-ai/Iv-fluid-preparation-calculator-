@@ -770,6 +770,23 @@ ${classifyTonicity(osmolarity)}
    </div>
    `;
  }
+     else if(dex===20 && saline===0.9){
+
+   html=`
+   <div class="method">
+
+   <b>Preferred Method</b><br><br>
+
+   ${(volume*0.4).toFixed(1)} mL D50W<br>
+   ${(volume*0.6).toFixed(1)} mL NS<br><br>
+
+   Final:
+   ${volume} mL D20NS
+
+   </div>
+   `;
+}
+
 else if(dex===20 && Math.abs(saline-0.225)<0.01){
 
  html=`
