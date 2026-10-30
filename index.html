@@ -569,13 +569,143 @@ function showTab(tab){
  document.getElementById(tab).classList.remove("hidden");
 }
     
+
+/* =========================
+   FLUID PRESETS
+========================= */
+
 function setFluid(dex,saline){
 
-  document.getElementById("targetDex").value = dex;
-
-  document.getElementById("targetSaline").value = saline;
+ document.getElementById("targetDex").value = dex;
+ document.getElementById("targetSaline").value = saline;
 }
 
+/* =========================
+   OSMOLARITY / TONICITY
+========================= */
+
+function estimateOsmolarity(dex,saline){
+
+ // Approximation
+
+ const dexOsm = dex * 50.5;
+ const salineOsm = saline * 342;
+
+ return dexOsm + salineOsm;
+}
+
+function classifyTonicity(osm){
+
+ if(osm < 250){
+   return "Hypotonic";
+ }
+
+ if(osm <= 375){
+   return "Isotonic";
+ }
+
+ return "Hypertonic";
+}
+
+/* =========================
+   COPY
+========================= */
+
+function copyResult(id){
+
+ const text =
+ document.getElementById(id).innerText;
+
+ navigator.clipboard.writeText(text);
+
+ alert("Copied");
+}
+
+/* =========================
+   SAVE
+========================= */
+
+function saveResult(id){
+
+ const text =
+ document.getElementById(id).innerText;
+
+ const blob =
+ new Blob([text],{
+   type:"text/plain"
+ });
+
+ const a =
+ document.createElement("a");
+
+ a.href =
+ URL.createObjectURL(blob);
+
+ a.download =
+ "IV_Preparation.txt";
+
+ a.click();
+}
+
+/* =========================
+   SHARE
+========================= */
+
+async function shareResult(id){
+
+ const text =
+ document.getElementById(id).innerText;
+
+ if(navigator.share){
+
+   await navigator.share({
+     title:"IV Fluid Preparation",
+     text:text
+   });
+
+ }else{
+
+   alert("Share not supported");
+ }
+}
+
+/* =========================
+   PRINT
+========================= */
+
+function printResult(id){
+
+ const text =
+ document.getElementById(id).innerText;
+
+ const win =
+ window.open("","_blank");
+
+ win.document.write(`
+ <html>
+ <head>
+ <title>IV Preparation</title>
+ </head>
+ <body>
+ <pre>${text}</pre>
+ </body>
+ </html>
+ `);
+
+ win.document.close();
+
+ win.print();
+}
+
+/* =========================
+   BICARBONATE PRESETS
+========================= */
+
+function setBicarb(value){
+
+ document.getElementById("targetMmol").value =
+ value;
+}
 
 
 
@@ -613,6 +743,21 @@ function setFluid(dex,saline){
    ${volume} mL D10NS
 
    </div>
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
 
    html+=`
@@ -627,6 +772,21 @@ function setFluid(dex,saline){
    ${volume} mL D10NS
 
    </div>
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
 
@@ -651,6 +811,22 @@ function setFluid(dex,saline){
    ${volume} mL D10½NS
 
    </div>
+
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
 
    html+=`
@@ -665,6 +841,22 @@ function setFluid(dex,saline){
    ${volume} mL D10½NS
 
    </div>
+
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
 
@@ -683,6 +875,22 @@ function setFluid(dex,saline){
    ${volume} mL
 
    </div>
+
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
 
@@ -702,6 +910,22 @@ function setFluid(dex,saline){
    ${volume} mL D5¼NS
 
    </div>
+
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
 
@@ -721,6 +945,22 @@ function setFluid(dex,saline){
    ${volume} mL D10¼NS
 
    </div>
+
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
 
@@ -740,6 +980,21 @@ function setFluid(dex,saline){
    ${volume} mL D20W
 
    </div>
+   const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
    `;
  }
      else if(dex===20 && saline===0.9){
@@ -756,6 +1011,23 @@ function setFluid(dex,saline){
    ${volume} mL D20NS
 
    </div>
+
+const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
+   
    `;
 }
 
@@ -775,6 +1047,22 @@ else if(dex===20 && Math.abs(saline-0.225)<0.01){
  ${volume} mL D20¼NS
 
  </div>
+
+ const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
  `;
 }
 else if(dex===20 && Math.abs(saline-0.45)<0.01){
@@ -793,6 +1081,24 @@ else if(dex===20 && Math.abs(saline-0.45)<0.01){
  ${volume} mL D20½NS
 
  </div>
+
+const osmolarity =
+ estimateOsmolarity(dex,saline);
+
+const tonicity =
+ classifyTonicity(osmolarity);
+         
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Tonicity:
+${tonicity}
+
+ 
  `;
 }
  else{
@@ -800,43 +1106,13 @@ else if(dex===20 && Math.abs(saline-0.45)<0.01){
    html=`
    No predefined practical preparation exists
    for this combination.
+
+}
+
+
+   
    `;
  }
-const osmolarity =
- estimateOsmolarity(dex,saline);
-
-const tonicity =
- classifyTonicity(osmolarity);
-         
-html += `
-
-<br>
-
-<b>Estimated Osmolarity</b><br>
-
-${osmolarity.toFixed(0)} mOsm/L
-
-<br>
-
-${classifyTonicity(osmolarity)}
-
-`;
-    function classifyTonicity(osm){
-
- if(osm < 250){
-
-   return "Hypotonic";
-
- }
-
- if(osm <= 375){
-
-   return "Near Isotonic";
-
- }
-
- return "Hypertonic";
-}
 
 
  document.getElementById("dexResult").innerHTML = html;
