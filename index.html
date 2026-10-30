@@ -978,6 +978,35 @@ solveDextrose();
 calcAlbumin();
 calcHCO();
 
+function calcTonicity(){
+
+ let na =
+ parseFloat(
+ document.getElementById("na").value);
+
+ let glu =
+ parseFloat(
+ document.getElementById("glu").value);
+
+ let bun =
+ parseFloat(
+ document.getElementById("bun").value);
+
+ let osm =
+
+ (2*na) +
+ (glu/18) +
+ (bun/2.8);
+
+ document.getElementById(
+ "tonicityResult").innerHTML=
+
+ `
+ Calculated Osmolality:
+ <b>${osm.toFixed(1)}
+ mOsm/kg</b>
+ `;
+}
 
 function copyResult(id){
 
