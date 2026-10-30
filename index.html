@@ -792,6 +792,14 @@ else if(dex===20 && Math.abs(saline-0.45)<0.01){
  </div>
  `;
 }
+function estimateOsmolarity(dex,saline){
+
+ let dexOsm = dex * 50.5;
+
+ let salineOsm = saline * 342;
+
+ return dexOsm + salineOsm;
+}
 
 function calcAlbumin(){
 
@@ -890,6 +898,13 @@ document.getElementById("hcoResult").innerHTML=
  ${ampoules.toFixed(1)}
  `;
 }
+let osm =
+ mmolTarget * 2;
+
+ if(stock==1){
+
+   // close enough for bedside display
+ }
 
 solveDextrose();
 calcAlbumin();
