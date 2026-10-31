@@ -678,8 +678,17 @@ async function shareResult(id){
 function printResult(id){
 
 
- const text =
+const text =
  document.getElementById(id).innerText;
+
+const now = new Date();
+
+const printDate =
+ now.toLocaleDateString();
+
+const printTime =
+ now.toLocaleTimeString();
+
 
  const win =
  window.open("", "_blank");
