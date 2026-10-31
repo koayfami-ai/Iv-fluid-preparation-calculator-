@@ -677,19 +677,67 @@ async function shareResult(id){
 
 function printResult(id){
 
+
  const text =
  document.getElementById(id).innerText;
 
  const win =
- window.open("","_blank");
+ window.open("", "_blank");
 
  win.document.write(`
  <html>
  <head>
- <title>IV Preparation</title>
+   <title>IV Fluid Preparation</title>
+
+   <style>
+     body{
+       font-family: Arial, sans-serif;
+       padding:20px;
+     }
+
+     .header{
+       text-align:center;
+       margin-bottom:20px;
+     }
+
+     .footer{
+       margin-top:40px;
+       padding-top:10px;
+       border-top:1px solid #ccc;
+       text-align:center;
+       font-size:12px;
+       color:#666;
+     }
+
+     pre{
+       white-space:pre-wrap;
+       font-family:Arial,sans-serif;
+       font-size:16px;
+     }
+   </style>
+
  </head>
+
  <body>
- <pre>${text}</pre>
+
+   <div class="header">
+
+     <h2>IV Fluid Preparation Calculator</h2>
+
+   </div>
+
+   <pre>${text}</pre>
+
+   <div class="footer">
+
+     Developed by<br>
+
+     <b>Dr. Carmen Koay Gaik Bee</b><br>
+
+     Acute Internal Medicine Physician
+
+   </div>
+
  </body>
  </html>
  `);
@@ -1136,11 +1184,50 @@ calcAlbumin();
 calcHCO();
     calcTonicity();
     
-    
-
-
 
 </script>
 
+<footer style="
+margin-top:40px;
+padding:20px;
+text-align:center;
+font-size:14px;
+border-top:1px solid #d1d5db;
+color:#6b7280;
+">
+
+<h1>IV Fluid Preparation Calculator</h1>
+
+<p style="margin-top:-10px;color:#6b7280;">
+Clinical Fluid Compounding & Reference Tool
+</p>
+
+
+<br>
+
+Version 1.0
+
+<br><br>
+
+Developed by
+
+<br>
+
+<b>Dr. Carmen Koay Gaik Bee</b>
+
+<br>
+
+Acute Internal Medicine Physician
+
+<br><br>
+
+© 2026 All Rights Reserved
+
+</footer>
+
+
+
+
+    
 </body>
 </html>
