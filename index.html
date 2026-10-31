@@ -995,16 +995,17 @@ function calcAlbumin(){
     
 let albuminStatus="";
 
-if(target==5){
+if(targetConc == 5){
 
  albuminStatus =
  "Isotonic colloid";
 
-}else if(target==10){
+}else if(targetConc == 10){
 
  albuminStatus =
  "Hyperoncotic solution";
 }
+
 
  document.getElementById("albResult").innerHTML =
 
@@ -1022,11 +1023,14 @@ if(target==5){
  Final Volume:
  ${finalVol.toFixed(1)} mL
  <br><br>
+ 
+Final Concentration:
+${targetConc}%
 
- Final Concentration:
- ${targetConc}%
- `;
-}
+<br><br>
+
+Classification:
+${albuminStatus}
 
 
 function calcHCO(){
@@ -1050,7 +1054,7 @@ function calcHCO(){
  mmol/stock;
 
  let diluent=
- volume-hcoVol;m
+ volume-hcoVol;
 
  let ampoules=
  hcoVol/50;
