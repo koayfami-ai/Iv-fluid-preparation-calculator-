@@ -568,6 +568,8 @@ function showTab(tab){
  document.getElementById("hco").classList.add("hidden");
  document.getElementById("ref").classList.add("hidden");
  document.getElementById("tonicity").classList.add("hidden");
+document.getElementById(tab).classList.remove("hidden");
+
 }
     
 
@@ -989,26 +991,21 @@ function calcAlbumin(){
  parseFloat(document.getElementById("albFinalVolume").value);
 
  let albuminNeeded =
-
- (targetConc*finalVol)/stockConc;
+ (targetConc * finalVol) / stockConc;
 
  let diluent =
+ finalVol - albuminNeeded;
 
- finalVol-albuminNeeded;
-    
-let albuminStatus="";
+ let albuminStatus = "";
 
-if(targetConc == 5){
+ if(targetConc == 5){
 
- albuminStatus =
- "Isotonic colloid";
+   albuminStatus = "Isotonic colloid";
 
-}else if(targetConc == 10){
+ }else if(targetConc == 10){
 
- albuminStatus =
- "Hyperoncotic solution";
-}
-
+   albuminStatus = "Hyperoncotic solution";
+ }
 
  document.getElementById("albResult").innerHTML =
 
@@ -1017,24 +1014,29 @@ if(targetConc == 5){
 
  Albumin Required:
  ${albuminNeeded.toFixed(1)} mL
+
  <br><br>
 
  Diluent Required:
  ${diluent.toFixed(1)} mL
+
  <br><br>
 
  Final Volume:
  ${finalVol.toFixed(1)} mL
+
  <br><br>
- 
-Final Concentration:
-${targetConc}%
 
-<br><br>
+ Final Concentration:
+ ${targetConc}%
 
-Classification:
-${albuminStatus}
+ <br><br>
 
+ Classification:
+ ${albuminStatus}
+ `;
+
+}
 
 function calcHCO(){
 
