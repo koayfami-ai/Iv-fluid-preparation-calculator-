@@ -1082,13 +1082,20 @@ document.getElementById("hcoResult").innerHTML=
  ${diluent.toFixed(1)} mL
  <br><br>
 
- 50 mL ampoules:
- ${ampoules.toFixed(1)}
- `;
-}
+50 mL ampoules:
+${ampoules.toFixed(1)}
 
- 
-    
+<br><br>
+
+Estimated Osmolarity:
+${osmolarity.toFixed(0)} mOsm/L
+
+<br><br>
+
+Classification:
+${tonicity}
+`;
+
     
 function calcTonicity(){
 
